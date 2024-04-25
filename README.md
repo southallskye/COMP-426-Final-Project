@@ -4,7 +4,7 @@ Final projects should be done in groups of 3 ideally, but 2 or 4 is also OK. Mor
 
 Final project group registration form:
 
-https://docs.google.com/forms/d/e/1FAIpQLSf1VEYxsqAcz666UY_qvDQ-9ytlFKjNWDj9Hmz0uCgy4M1qGg/viewform?usp=sf_linkLinks to an external site.
+https://docs.google.com/forms/d/e/1FAIpQLSf1VEYxsqAcz666UY_qvDQ-9ytlFKjNWDj9Hmz0uCgy4M1qGg/viewform?usp=sf_link
 
 The final project is very open-ended and there are no specific requirements for what your final project does per se. There will be 100 overall points awarded as follows:
 
