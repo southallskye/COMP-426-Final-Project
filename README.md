@@ -17,8 +17,11 @@ The final project is very open-ended and there are no specific requirements for 
 10 points: Uses session-persistent state in some way.
 For example, authenticating the user and then having user-specific preferences and/or data.
 - Sign in and then access your trips
+- 
 10 points: A pleasing user experience (i.e., easy to use, good design, etc.).
+- 
 10 points: Quality of presentation video (see below)
+  - 
 
 Each group will be expected to turn in their final projects as a repository with all of the code, stylesheets, images, and any other files developed as part of their project with a top-level README.md file that briefly describes their project and includes a link to a presentation video.
 
