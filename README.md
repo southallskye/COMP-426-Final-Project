@@ -5,11 +5,11 @@ The final project is very open-ended and there are no specific requirements for 
 30 points: Having a front end that is interactive and event-driven
 - sign in page
 - list of trips
-- add a new trip: city location, country, dates
+- add a new trip: city location, country, dates, what you want to do 
 - 
 30 points: Having a back end that serves at least two resources with a RESTful CRUD (create, read, update, and delete) API.
-- location
-- dates
+- date & location database
+- diy events database
 - get, store database and send to front end
 10 points: Uses at least one 3rd party API
 - Weather API
