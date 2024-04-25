@@ -2,7 +2,7 @@
 
 The final project is very open-ended and there are no specific requirements for what your final project does per se. There will be 100 overall points awarded as follows:
 
-###30 points: Having a front end that is interactive and event-driven
+##30 points: Having a front end that is interactive and event-driven
 - sign in page
 - list of trips
 - 
