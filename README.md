@@ -1,11 +1,5 @@
 # COMP-426-Final-Project
 
-Final projects should be done in groups of 3 ideally, but 2 or 4 is also OK. More than 4 will not be allowed. Fill out the following form by the end of Monday, April 8th to register your group. If you would like to work on your own, we may be able to accommodate that only if the number of people doing so is reasonably small. Go ahead and fill out the form with just yourself to express interest in doing the project solo. On Tuesday, we will reach out to anyone that is not registered with a group to try to facilitate making groups or to find a group for you to join and/or consolidate solo projects if we have too many.
-
-Final project group registration form:
-
-https://docs.google.com/forms/d/e/1FAIpQLSf1VEYxsqAcz666UY_qvDQ-9ytlFKjNWDj9Hmz0uCgy4M1qGg/viewform?usp=sf_link
-
 The final project is very open-ended and there are no specific requirements for what your final project does per se. There will be 100 overall points awarded as follows:
 
 30 points: Having a front end that is interactive and event-driven
