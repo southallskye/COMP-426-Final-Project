@@ -5,7 +5,15 @@ The final project is very open-ended and there are no specific requirements for 
 30 points: Having a front end that is interactive and event-driven
 - sign in page
 - list of trips
-- add a new trip: city location, country, dates, what you want to do 
+- add a new trip: city location, country, dates, what you want to do
+
+  events:
+  start (login/signup screen)
+  login
+  signup
+  homepage (trips)
+  expand events
+  hide events
 - 
 30 points: Having a back end that serves at least two resources with a RESTful CRUD (create, read, update, and delete) API.
 - date & location database
