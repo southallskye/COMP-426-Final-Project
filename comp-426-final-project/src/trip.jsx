@@ -1,10 +1,7 @@
-//this file controls trips and adding/deleting events
 import React, { useState } from 'react';
 import Event from './event'; 
 
-function Trip({ id, onDeleteTrip }) { //api call parameters would go in function header
-
-    //api call will go here as part of the Trip function
+function Trip({ id, onDeleteTrip }) {
   const [expanded, setExpanded] = useState(false);
   const [events, setEvents] = useState([]);
 
@@ -17,22 +14,20 @@ function Trip({ id, onDeleteTrip }) { //api call parameters would go in function
   };
 
   const handleAddEvent = () => {
-    
     const eventId = Math.random().toString(36).substr(2, 9);
-    //any api call parameters needed for an event would go here
     setEvents([...events, { id: eventId }]);
   };
 
   const handleSaveTrip = () => {
-    
+    // Handle save trip action
   };
 
   const handleDeleteTrip = () => {
+    alert('deleting trip');
     onDeleteTrip(id);
   };
 
   const handleDeleteEvent = (eventId) => {
-    
     const updatedEvents = events.filter((event) => event.id !== eventId);
     setEvents(updatedEvents);
   };
@@ -46,17 +41,25 @@ function Trip({ id, onDeleteTrip }) { //api call parameters would go in function
         value={tripData}
         onChange={(e) => setTripData(e.target.value)}
       />
-      {/*the textarea above would be replaced with info needed for the api call*/}
-      {/*this is where the results of the api call will go*/}
-      <button onClick={handleExpand}>Expand Events</button>
-      <button onClick={handleHide}>Hide Events</button>
-      <button onClick={handleAddEvent}>Add Event</button>
+      <button onClick={handleExpand} style={{ display: expanded ? 'none' : 'block' }}>Expand Events</button>
+      <button onClick={handleHide} style={{ display: expanded ? 'block' : 'none' }}>Hide Events</button>
+      {expanded && (
+        <button onClick={handleAddEvent}>Add Event</button>
+      )}
       <button onClick={handleSaveTrip}>Save Trip</button>
       <button onClick={handleDeleteTrip}>Delete Trip</button>
 
-      {expanded && events.map(event => (
-        <Event key={event.id} id={event.id} onDeleteEvent={handleDeleteEvent} />
-      ))}
+      {expanded && events.length === 0 && (
+        <p>You have no events</p>
+      )}
+
+      {expanded && events.length > 0 && (
+        <div className="event">
+          {events.map((event) => (
+            <Event key={event.id} id={event.id} onDeleteEvent={handleDeleteEvent} />
+          ))}
+        </div>
+      )}
     </>
   );
 }

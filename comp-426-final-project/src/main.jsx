@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Home from './home';
 import Start from './start';
+import './main.css';
 
 function Main() {
   const [currentPage, setCurrentPage] = useState('start');
