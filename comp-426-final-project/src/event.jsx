@@ -6,7 +6,8 @@ function Event({ id, onDeleteEvent }) {//api call parameters would go in functio
   const [eventData, setEventData] = useState("Event data will eventually be here");
 
   const handleSaveEvent = () => {
-    
+    //PUT event
+    //GET request to 3rd party API
   };
 
   const handleDeleteEvent = () => {

@@ -16,10 +16,12 @@ function Trip({ id, onDeleteTrip }) {
   const handleAddEvent = () => {
     const eventId = Math.random().toString(36).substr(2, 9);
     setEvents([...events, { id: eventId }]);
+    //POST event
   };
 
   const handleSaveTrip = () => {
-    // Handle save trip action
+    //PUT trip
+    //GET request to 3rd party API
   };
 
   const handleDeleteTrip = () => {
@@ -30,17 +32,19 @@ function Trip({ id, onDeleteTrip }) {
   const handleDeleteEvent = (eventId) => {
     const updatedEvents = events.filter((event) => event.id !== eventId);
     setEvents(updatedEvents);
+    //DELETE event
   };
 
-  const [tripData, setTripData] = useState("Trip data will go here eventually.");
+  const [tripData, setTripData] = useState("Trip data will go here eventually."); //inputs for 3rd party API requests
 
   return (
     <>
       <h3>Trip {id}</h3>
       <textarea
         value={tripData}
-        onChange={(e) => setTripData(e.target.value)}
+        onChange={(e) => setTripData(e.target.value)} //inputs for 3rd party API requests
       />
+      {/*results from 3rd party API would go here */}
       <button onClick={handleExpand} style={{ display: expanded ? 'none' : 'block' }}>Expand Events</button>
       <button onClick={handleHide} style={{ display: expanded ? 'block' : 'none' }}>Hide Events</button>
       {expanded && (

@@ -7,14 +7,20 @@ function Start({ setCurrentPage }) {
   };
 
   function handleSignUp() {
-    
-    alert("Sign Up button clicked!");
+    //POST username and password
+    //if username already in database
+    alert("Username already taken");
+    //else
     navigateToHome();
   }
 
   function handleLogin() {
-    
-    alert("Log In button clicked!");
+    //GET username and password
+    //if username nonexistent
+    alert("Username does not exist");
+    //else if password wrong
+    alert("Incorrect password");
+    //else
     navigateToHome();
   }
 

@@ -20,10 +20,12 @@ function Home({ setCurrentPage }) {
         // Other trip properties
       };
       setTrips([...trips, newTrip]);
+      //POST new trip
     };
     
     const deleteTrip = (id) => {
       setTrips(trips.filter((trip) => trip.id !== id)); 
+      //DELETE trip
     };
   
     return (
