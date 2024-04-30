@@ -9,6 +9,27 @@ function Start({ setCurrentPage }) {
   function handleSignUp() {
     //POST username and password
     //if username already in database
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    fetch('/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the server
+        console.log(data);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error(error);
+      });
+
     alert("Username already taken");
     //else
     navigateToHome();
