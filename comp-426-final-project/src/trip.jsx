@@ -5,6 +5,11 @@ function Trip({ id, onDeleteTrip }) {
   const [expanded, setExpanded] = useState(false);
   const [events, setEvents] = useState([]);
 
+  const [weather, setWeather] = useState(null);
+
+  const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+  const weatherApiKey = '5179943790412546d5501fb308a6219c';
+
   const handleExpand = () => {
     setExpanded(true);
   };
@@ -19,9 +24,16 @@ function Trip({ id, onDeleteTrip }) {
     //POST event
   };
 
-  const handleSaveTrip = () => {
-    //PUT trip
-    //GET request to 3rd party API
+  const handleSaveTrip = async () => {
+    try {
+      const weatherResponse = await fetch(`${weatherApiUrl}?q=${encodeURIComponent("Location")}&appid=${weatherApiKey}&units=imperial`);
+      const weatherData = await weatherResponse.json();
+      setWeather(weatherData);
+      // Handle weather data, update state or display
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   const handleDeleteTrip = () => {
@@ -64,6 +76,9 @@ function Trip({ id, onDeleteTrip }) {
           ))}
         </div>
       )}
+      <div id="weather">
+        {/* Display weather data here */}
+      </div>
     </>
   );
 }
