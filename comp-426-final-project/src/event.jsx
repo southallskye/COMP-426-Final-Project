@@ -7,8 +7,6 @@ function Event({ id, onDeleteEvent }) {//api call parameters would go in functio
 
   const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
   const weatherApiKey = '5179943790412546d5501fb308a6219c';
-  const eventsApiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json';
-  const eventsApiKey = 'n5x4As9PgHDtnmnKDJ3WXFLk8MLCXAVA';
 
   const handleSaveEvent = async () => {
     try {
@@ -16,9 +14,6 @@ function Event({ id, onDeleteEvent }) {//api call parameters would go in functio
       const weatherData = await weatherResponse.json();
       // Handle weather data, update state or display
       
-      const eventsResponse = await fetch(`${eventsApiUrl}?city=${encodeURIComponent(location)}&apikey=${eventsApiKey}`);
-      const eventsData = await eventsResponse.json();
-      // Handle events data, update state or display
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -38,9 +33,6 @@ function Event({ id, onDeleteEvent }) {//api call parameters would go in functio
       {/* Display weather and events data */}
       <div id="weather">
         {/* Display weather data here */}
-      </div>
-      <div id="events">
-        {/* Display events data here */}
       </div>
     </>
   );
