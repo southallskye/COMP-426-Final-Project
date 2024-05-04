@@ -5,12 +5,9 @@ function Event({ id, onDeleteEvent }) {//api call parameters would go in functio
     //api call goes in here
   const [eventData, setEventData] = useState("Event data will eventually be here");
 
-  const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
-  const weatherApiKey = '5179943790412546d5501fb308a6219c';
-
   const handleSaveEvent = async () => {
     try {
-      const weatherResponse = await fetch(`${weatherApiUrl}?q=${encodeURIComponent(location)}&appid=${weatherApiKey}&units=imperial`);
+      const weatherResponse = await fetch(`${weatherApiUrl}?q=${encodeURIComponent("Location")}&appid=${weatherApiKey}&units=imperial`);
       const weatherData = await weatherResponse.json();
       // Handle weather data, update state or display
       
