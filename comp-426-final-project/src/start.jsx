@@ -6,90 +6,115 @@ function Start({ setCurrentPage }) {
     setCurrentPage('home');
   };
 
-  function handleSignUp() {
-    //POST username and password
-    //if username already in database
+    function handleSignUp() {
+      //POST username and password
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
 
-    fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Handle the response from the server
-        console.log(data);
+      //send username and password to server
+      fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+      .then((response) => {
+        //user already exists error
+        if (!response.ok) {
+          return response.json().then((json) => {
+            throw new Error(json.error);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        // handle successful response
+        navigateToHome();
       })
       .catch(error => {
-        // Handle any errors
-        console.error(error);
+        // handle error
+        alert(error.message);
       });
+    }
 
-    alert("Username already taken");
-    //else
-    navigateToHome();
+    async function handleLogin() {
+      //send a login request to the server
+      const username = document.getElementById('username2').value;
+      const password = document.getElementById('password2').value;
+
+      fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+      .then(async (response) => {
+        //user does not exist error
+        if (!response.ok) {
+          return response.json().then((json) => {
+            throw new Error(json.error);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        // handle successful response
+        navigateToHome();
+      })
+      .catch(error => {
+        // handle error
+        alert(error.message);
+      });
+    }
+
+    return (
+      <>
+        <h2>Sign Up</h2>
+        <label htmlFor="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="urmomdotcom"
+          maxLength="20"
+          required
+        />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="password"
+          maxLength="20"
+          required
+        />
+        <button onClick={handleSignUp}>Sign Up</button>
+
+        <h2>Login</h2>
+        <label htmlFor="username2">Username:</label>
+        <input
+          type="text"
+          id="username2"
+          name="username2"
+          placeholder="urmomdotcom"
+          maxLength="20"
+          required
+        />
+        <label htmlFor="password2">Password:</label>
+        <input
+          type="password"
+          id="password2"
+          name="password2"
+          placeholder="password"
+          maxLength="20"
+          required
+        />
+        <button onClick={handleLogin}>Log In</button>
+      </>
+    );
   }
-
-  function handleLogin() {
-    //GET username and password
-    //if username nonexistent
-    alert("Username does not exist");
-    //else if password wrong
-    alert("Incorrect password");
-    //else
-    navigateToHome();
-  }
-
-  return (
-    <>
-      <h2>Sign Up</h2>
-      <label htmlFor="username">Username:</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        placeholder="urmomdotcom"
-        maxLength="20"
-        required
-      />
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="password"
-        maxLength="20"
-        required
-      />
-      <button onClick={handleSignUp}>Sign Up</button>
-
-      <h2>Login</h2>
-      <label htmlFor="username2">Username:</label>
-      <input
-        type="text"
-        id="username2"
-        name="username2"
-        placeholder="urmomdotcom"
-        maxLength="20"
-        required
-      />
-      <label htmlFor="password2">Password:</label>
-      <input
-        type="password"
-        id="password2"
-        name="password2"
-        placeholder="password"
-        maxLength="20"
-        required
-      />
-      <button onClick={handleLogin}>Log In</button>
-    </>
-  );
-}
 
 export default Start;

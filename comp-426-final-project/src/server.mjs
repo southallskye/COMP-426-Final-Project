@@ -12,13 +12,43 @@ app.use(express.urlencoded({ extended: true }));
 // Define your routes here
 app.post('/api/signup', (req, res) => {
     // Handle signup logic here
-    //console.log(req.body);
-
     const { username, password } = req.body;
-    console.log(username, password)
-    db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, password]);
 
-    //console.log("Sign up route hit!");
+    //check if username already exists
+    db.get('SELECT * FROM users WHERE username = ?', [username])
+    .then((user) => {
+        if(user) {
+            //return error if user already exists
+            res.status(400).json({error: 'User already exists'});
+        } else {
+            //add user to database
+            db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, password])
+            .then(() => {
+                res.send({ message: 'User created' });
+            })
+            .catch((err) => {
+                res.status(500).json({error: 'error occured'});
+            });
+        }
+    })
+});
+
+app.post('/api/login', (req, res) => {
+    // Handle login logic here
+    const { username, password } = req.body;
+
+    //check if user exists
+    db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, password])
+    .then((user) => {
+        if(user) {
+            res.send({ message: 'User logged in' });
+        } else {
+            res.status(400).json({error: 'User or Password does not match'});
+        }
+    })
+    .catch((err) => {
+        res.status(500).json({error: 'error occured'});
+    });
 });
 
 
