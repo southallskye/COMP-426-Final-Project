@@ -89,6 +89,7 @@ function Trip({ id, city, onDeleteTrip }) {
       type=""
         value={tripData}
         onChange={(e) => setTripData(e.target.value)}
+        placeholder="City"
       />
       <input 
         type="date" 

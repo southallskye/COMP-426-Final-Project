@@ -51,4 +51,5 @@ input{
     background-size: cover;
     background-position: center; /* Center the image */
     background-image: url(trip_bg.jpg);
+    padding: calc(0.25in + 1px); /* Adjust the padding to 1/4 inch */
 }
