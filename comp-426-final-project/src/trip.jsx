@@ -1,39 +1,56 @@
 import React, { useState } from 'react';
 import Event from './event'; 
 
-function Trip({ id, onDeleteTrip }) {
+function Trip({ id, city, onDeleteTrip }) {
   const [expanded, setExpanded] = useState(false);
   const [events, setEvents] = useState([]);
-
+  const [tripStart, setTripStart] = useState('');
+  const [tripEnd, setTripEnd] = useState('');
   const [weather, setWeather] = useState(null);
-
+  const [tripTitle, setTripTitle] = useState("Trip " + id);
   const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
   const weatherApiKey = '5179943790412546d5501fb308a6219c';
 
-  const handleExpand = () => {
-    setExpanded(true);
-  };
+  // const handleExpand = () => {
+  //   setExpanded(true);
+  // };
 
-  const handleHide = () => {
-    setExpanded(false);
-  };
+  // const handleHide = () => {
+  //   setExpanded(false);
+  // };
 
-  const handleAddEvent = () => {
-    const eventId = Math.random().toString(36).substr(2, 9);
-    setEvents([...events, { id: eventId }]);
-    //POST event
-  };
+  // const handleAddEvent = () => {
+  //   const eventId = Math.random().toString(36).substr(2, 9);
+  //   setEvents([...events, { id: eventId }]);
+  //   //POST event
+  // };
 
   const handleSaveTrip = async () => {
-    try {
-      const weatherResponse = await fetch(`${weatherApiUrl}?q=${encodeURIComponent("Location")}&appid=${weatherApiKey}&units=imperial`);
-      const weatherData = await weatherResponse.json();
-      setWeather(weatherData);
-      // Handle weather data, update state or display
-      
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+    let trip_id = Math.random().toString(36).substr(2, 9);
+    console.log(JSON.stringify({ trip_id, tripStart, tripEnd, tripData }));
+
+    fetch('/api/trip', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ trip_id, tripStart, tripEnd, tripData })
+    })
+    .then(() => {
+      alert("Created trip");
+    })
+    .catch(error => {
+      // handle error
+      alert(error.message);
+    });
+    // try {
+    //   const weatherResponse = await fetch(`${weatherApiUrl}?q=${encodeURIComponent(city)}&appid=${weatherApiKey}&units=imperial`);
+    //   const weatherData = await weatherResponse.json();
+    //   setWeather(weatherData);
+    // } catch (error) {
+    //   console.error('Error fetching data:', error);
+    //   // Handle error
+    // }
   };
 
   const handleDeleteTrip = () => {
@@ -47,54 +64,62 @@ function Trip({ id, onDeleteTrip }) {
       body: JSON.stringify({ id })
     })
     .then(() => {
-      // what to do here 
-      expanded = 0;
+      // what to do here
+      alert("Deleted trip");
     })
     .catch(error => {
       // handle the error
       alert(error.message);
     });
-    onDeleteTrip(id);
+    // onDeleteTrip(id);
   };
 
-  const handleDeleteEvent = (eventId) => {
-    const updatedEvents = events.filter((event) => event.id !== eventId);
-    setEvents(updatedEvents);
-    //DELETE event
+  const handleStartDateChange = (e) => {
+    setTripStart(e.target.value);
   };
 
-  const [tripData, setTripData] = useState("Trip data will go here eventually."); //inputs for 3rd party API requests
+  const handleEndDateChange = (e) => {
+    setTripEnd(e.target.value);
+  };
+
+  // const handleDeleteEvent = (eventId) => {
+  //   const updatedEvents = events.filter((event) => event.id !== eventId);
+  //   setEvents(updatedEvents);
+  //   //DELETE event
+  // };
+
+  const [tripData, setTripData] = useState(city); //inputs for 3rd party API requests
 
   return (
     <>
-      <h3>Trip {id}</h3>
-      <textarea
-        value={tripData}
-        onChange={(e) => setTripData(e.target.value)} //inputs for 3rd party API requests
+      <input 
+        type="text" 
+        value={tripTitle} 
+        onChange={(e) => setTripTitle(e.target.value)} 
       />
-      {/*results from 3rd party API would go here */}
-      <button onClick={handleExpand} style={{ display: expanded ? 'none' : 'block' }}>Expand Events</button>
-      <button onClick={handleHide} style={{ display: expanded ? 'block' : 'none' }}>Hide Events</button>
-      {expanded && (
-        <button onClick={handleAddEvent}>Add Event</button>
+      <input
+      type=""
+        value={tripData}
+        onChange={(e) => setTripData(e.target.value)}
+      />
+      <input 
+        type="date" 
+        value={tripStart} 
+        onChange={handleStartDateChange} 
+      />
+      <input 
+        type="date" 
+        value={tripEnd} 
+        onChange={handleEndDateChange} 
+      />
+      {weather && (
+        <div>
+          <p>Weather: {weather.main.temp} °F</p>
+          {/* Display other weather data here */}
+        </div>
       )}
       <button onClick={handleSaveTrip}>Save Trip</button>
       <button onClick={handleDeleteTrip}>Delete Trip</button>
-
-      {expanded && events.length === 0 && (
-        <p>You have no events</p>
-      )}
-
-      {expanded && events.length > 0 && (
-        <div className="event">
-          {events.map((event) => (
-            <Event key={event.id} id={event.id} onDeleteEvent={handleDeleteEvent} />
-          ))}
-        </div>
-      )}
-      <div id="weather">
-        {/* Display weather data here */}
-      </div>
     </>
   );
 }

@@ -1,13 +1,19 @@
 import{db} from '../db.mjs'
-
-
 import express from 'express';
+import session from 'express-session';
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true }
+  }));
 
 // app.get('/', (req, res) => {
 //     console.log('Root route is being accessed');
@@ -46,6 +52,7 @@ app.post('/api/login', (req, res) => {
     db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, password])
     .then((user) => {
         if(user) {
+            req.session.username = user.username; // Store username in session
             res.send({ message: 'User logged in' });
         } else {
             res.status(400).json({error: 'User or Password does not match'});
@@ -58,10 +65,10 @@ app.post('/api/login', (req, res) => {
 
 app.post('/api/trip', (req, res) => {
     // Handle login logic here
-    const { trip_id, start_date, end_date, location } = req.body;
+    const { trip_id, tripStart, tripEnd, tripData } = req.body;
 
-    db.run('INSERT INTO trips (trip_id, start_date, end_date, location) VALUES (?, ?, ?, ?)', 
-    [trip_id, start_date, end_date, location])
+
+    db.run('INSERT INTO trips (trip_id, start_date, end_date, location) VALUES (?, ?, ?, ?)', [trip_id, tripStart, tripEnd, tripData])
     .then(() => {
         res.send({ message: 'trip created' });
     })

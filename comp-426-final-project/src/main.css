@@ -5,7 +5,7 @@ html {
   align-items: center; /* Center vertically */
   width: 100vw; 
   overflow: auto;
-    background-image: url(https://img.goodfon.com/original/1920x1080/5/a6/karta-mira-chernyi-fon-neon-materiki-zemlia-world-map-black.jpg);
+    background-image: url(main_bg.jpg);
 }
 #root{
     overflow: auto;
@@ -50,7 +50,7 @@ input{
 .trip {
     background-size: cover;
     background-position: center; /* Center the image */
-    background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cef8bec6-8423-4466-8f92-d545315fe995/d53jwph-40a8136d-509c-4544-81a9-75aee24404f7.jpg/v1/fill/w_1280,h_720,q_75,strp/clouds_background_by_ecvcm_d53jwph-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvY2VmOGJlYzYtODQyMy00NDY2LThmOTItZDU0NTMxNWZlOTk1XC9kNTNqd3BoLTQwYTgxMzZkLTUwOWMtNDU0NC04MWE5LTc1YWVlMjQ0MDRmNy5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19._y9C1a3PCK6YC66zJ5sudP_HcHd2Ke9mMRzf3Vmhlg0);
+    background-image: url(trip_bg.jpg);
 }
 .event {
     background-size: cover;

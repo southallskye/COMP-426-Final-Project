@@ -7,12 +7,10 @@ db.run(`CREATE TABLE users (
 )`);
 
 db.run(`CREATE TABLE trips (
-    trip_id INTEGER,
-    user TEXT,
+    trip_id TEXT,
     start_date TEXT,
     end_date TEXT,
     location TEXT,
-    FOREIGN KEY user REFERENCES users (username)
 )`);
 
 db.run(`CREATE TABLE events (
@@ -21,8 +19,6 @@ db.run(`CREATE TABLE events (
     date TEXT,
     desc TEXT,
     FOREIGN KEY trip_id REFERENCES trips (trip_id)
-)`)
-
-db.run()
+)`);
 
 db.close()
