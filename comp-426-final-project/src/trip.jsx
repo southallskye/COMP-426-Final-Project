@@ -9,7 +9,8 @@ function Trip({ id, city, onDeleteTrip }) {
   const [weather, setWeather] = useState(null);
   const [tripTitle, setTripTitle] = useState("Trip " + id);
   const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
-  const weatherApiKey = '5179943790412546d5501fb308a6219c';
+  //const weatherApiKey = '5179943790412546d5501fb308a6219c';
+  const weatherApiKey = 'b8a286429efbdadebe4aa6638acf1b93';
 
   // const handleExpand = () => {
   //   setExpanded(true);
@@ -27,7 +28,11 @@ function Trip({ id, city, onDeleteTrip }) {
 
   const handleSaveTrip = async () => {
     try {
-      const weatherResponse = await fetch(`${weatherApiUrl}?q=${encodeURIComponent(city)}&appid=${weatherApiKey}&units=imperial`);
+      const apiUrl = `${weatherApiUrl}?q=${encodeURIComponent(city)}&appid=${weatherApiKey}&units=imperial`;
+      const weatherResponse = await fetch(apiUrl);
+      if (!weatherResponse.ok) {
+        throw new Error('Failed to fetch weather data: ' + weatherResponse.statusText);
+      }
       const weatherData = await weatherResponse.json();
       setWeather(weatherData);
     } catch (error) {
@@ -95,12 +100,17 @@ function Trip({ id, city, onDeleteTrip }) {
         value={tripEnd} 
         onChange={handleEndDateChange} 
       />
-      {weather && (
-        <div>
-          <p>Weather: {weather.main.temp} °F</p>
-          {/* Display other weather data here */}
-        </div>
-      )}
+      {weather !== null && (
+  <div className="weather-info">
+    <h4>Weather Information</h4>
+    <p>Temperature: {weather.main.temp} °C</p>
+    <p>Feels Like: {weather.main.feels_like} °C</p>
+    <p>Weather Conditions: {weather.weather[0].description}</p>
+    <p>Humidity: {weather.main.humidity}%</p>
+    <p>Wind Speed: {weather.wind.speed} meter/sec</p>
+    {/* Add more weather information as needed */}
+  </div>
+)}
       <button onClick={handleSaveTrip}>Save Trip</button>
       <button onClick={handleDeleteTrip}>Delete Trip</button>
     </>

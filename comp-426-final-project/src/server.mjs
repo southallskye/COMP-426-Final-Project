@@ -1,6 +1,7 @@
 import{db} from '../db.mjs'
 import express from 'express';
 import session from 'express-session';
+import path from 'path';
 
 const app = express();
 const port = 3000;
@@ -14,6 +15,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: { secure: true }
   }));
+
+  app.use(express.static(path.join(__dirname, 'public')));
 
 // app.get('/', (req, res) => {
 //     console.log('Root route is being accessed');
@@ -147,6 +150,10 @@ app.delete('/api/event', (req, res) => {
     .catch((err) => {
         res.status(500).json({error: 'error occured'});
     });
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 

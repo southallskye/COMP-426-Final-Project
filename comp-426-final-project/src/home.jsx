@@ -16,7 +16,7 @@ function Home({ setCurrentPage }) {
     const addTrip = () => {
       const tripId = Math.random().toString(36).substr(2, 9);
       const newTrip = {
-        trip_id: tripId,
+        id: tripId,
         city: "City"
         // Other trip properties
       };
