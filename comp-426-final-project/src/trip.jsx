@@ -44,7 +44,7 @@ function Trip({ id, city, onDeleteTrip }) {
   const handleDeleteTrip = () => {
     alert('deleting trip');
 
-    fetch('/api/trip', {
+    fetch('http://localhost:3001/api/trip', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

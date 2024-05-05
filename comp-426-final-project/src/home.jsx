@@ -27,7 +27,7 @@ function Home({ setCurrentPage }) {
     
     const deleteTrip = (id) => {
       setTrips(trips.filter((trip) => trip.id !== id)); 
-      fetch('/api/trip', {
+      fetch('http://localhost:3001/api/trip', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'

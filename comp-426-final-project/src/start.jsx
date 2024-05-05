@@ -13,7 +13,7 @@ function Start({ setCurrentPage }) {
       const password = document.getElementById('password').value;
 
       //send username and password to server
-      fetch('/api/signup', {
+      fetch('http://localhost:3001/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ function Start({ setCurrentPage }) {
       const username = document.getElementById('username2').value;
       const password = document.getElementById('password2').value;
 
-      fetch('/api/login', {
+      fetch('http://localhost:3001/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

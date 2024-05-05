@@ -2,9 +2,15 @@ import{db} from '../db.mjs'
 import express from 'express';
 import session from 'express-session';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import cors from 'cors';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
+const port = 3001;
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,18 +39,25 @@ app.post('/api/signup', (req, res) => {
     .then((user) => {
         if(user) {
             //return error if user already exists
+            console.log("User already exists");
             res.status(400).json({error: 'User already exists'});
         } else {
             //add user to database
             db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, password])
             .then(() => {
+                console.log("User created");
                 res.send({ message: 'User created' });
             })
             .catch((err) => {
-                res.status(500).json({error: 'error occured'});
+                console.error("Error occurred during signup:", err);
+                res.status(500).json({error: 'error occurred'});
             });
         }
     })
+    .catch((err) => {
+        console.error("Error occurred during signup:", err);
+        res.status(500).json({error: 'error occurred'});
+    });
 });
 
 app.post('/api/login', (req, res) => {
@@ -56,13 +69,16 @@ app.post('/api/login', (req, res) => {
     .then((user) => {
         if(user) {
             req.session.username = user.username; // Store username in session
+            console.log("User logged in");
             res.send({ message: 'User logged in' });
         } else {
+            console.log("User or Password does not match");
             res.status(400).json({error: 'User or Password does not match'});
         }
     })
     .catch((err) => {
-        res.status(500).json({error: 'error occured'});
+        console.error("Error occurred during login:", err);
+        res.status(500).json({error: 'error occurred'});
     });
 });
 
@@ -156,7 +172,13 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
+    server.emit('ready');
 });
+
+
+// app.listen(3333, () => {
+//     console.log(`Server is running on port ${port}`);
+//     server.emit('ready');
+// });

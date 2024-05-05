@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [isReady, setIsReady] = useState(false);
+
+    useEffect(() => {
+        // Listen for 'ready' event from the server
+        const eventSource = new EventSource('http://localhost:3001/ready');
+        eventSource.addEventListener('ready', () => {
+            setIsReady(true);
+        });
+
+        // Cleanup event listener on component unmount
+        return () => {
+            eventSource.close();
+        };
+    }, []);
+
+    return (
+        <div>
+            {!isReady && <p>Loading...</p>}
+            {isReady && <p>Application is ready to use!</p>}
+            {/* Render your application components here */}
+        </div>
+    );
 }
 
 export default App;
