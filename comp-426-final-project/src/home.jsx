@@ -16,16 +16,30 @@ function Home({ setCurrentPage }) {
     const addTrip = () => {
       const tripId = Math.random().toString(36).substr(2, 9);
       const newTrip = {
-        id: tripId,
+        trip_id: tripId
         // Other trip properties
       };
       setTrips([...trips, newTrip]);
+
       //POST new trip
     };
     
     const deleteTrip = (id) => {
       setTrips(trips.filter((trip) => trip.id !== id)); 
-      //DELETE trip
+      fetch('/api/trip', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+      })
+      .then(() => {
+        // what to do here 
+      })
+      .catch(error => {
+        // handle the error
+        alert(error.message);
+      });
     };
   
     return (

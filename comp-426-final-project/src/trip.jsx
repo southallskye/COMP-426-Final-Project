@@ -38,6 +38,22 @@ function Trip({ id, onDeleteTrip }) {
 
   const handleDeleteTrip = () => {
     alert('deleting trip');
+
+    fetch('/api/trip', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id })
+    })
+    .then(() => {
+      // what to do here 
+      expanded = 0;
+    })
+    .catch(error => {
+      // handle the error
+      alert(error.message);
+    });
     onDeleteTrip(id);
   };
 
