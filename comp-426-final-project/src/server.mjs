@@ -67,8 +67,12 @@ app.post('/api/trip', (req, res) => {
     // Handle login logic here
     const { trip_id, tripStart, tripEnd, tripData } = req.body;
 
+    console.log(trip_id);
+    console.log(tripStart);
+    console.log(tripEnd);
+    console.log(tripData);
 
-    db.run('INSERT INTO trips (trip_id, start_date, end_date, location) VALUES (?, ?, ?, ?)', [trip_id, tripStart, tripEnd, tripData])
+    db.run('INSERT INTO trips values (?, ?, ?, ?)', [trip_id, tripStart, tripEnd, tripData])
     .then(() => {
         res.send({ message: 'trip created' });
     })

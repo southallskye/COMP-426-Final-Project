@@ -10,7 +10,7 @@ db.run(`CREATE TABLE trips (
     trip_id TEXT,
     start_date TEXT,
     end_date TEXT,
-    location TEXT,
+    location TEXT
 )`);
 
 db.run(`CREATE TABLE events (
