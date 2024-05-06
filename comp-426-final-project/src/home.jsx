@@ -22,6 +22,7 @@ function Home({ setCurrentPage }) {
       };
       setTrips([...trips, newTrip]);
 
+
       //POST new trip
     };
     
