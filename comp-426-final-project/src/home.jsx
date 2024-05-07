@@ -7,8 +7,10 @@ function Home({ setCurrentPage }) {
     const navigateToStart = () => {
       setCurrentPage('start');
     };
+    const username = localStorage.getItem('username');
 
     let trip_ids = [];
+    const trips_test = [];
   
     function logOut(){
       alert('Logging out...');
@@ -16,8 +18,14 @@ function Home({ setCurrentPage }) {
     }
 
     async function getPriorTrips() {
+      const username = localStorage.getItem('username');
+      console.log("Username");
+      console.log(username);
+      const fetch_url = 'http://localhost:3001/api/trip/' + username;
+      console.log('fetch_url');
+      console.log(fetch_url);
       try {
-        const trips = await fetch('http://localhost:3001/api/trip', {
+        const trips = await fetch(fetch_url, { // replace user1 with the variable for username
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -31,18 +39,29 @@ function Home({ setCurrentPage }) {
       }
     }
 
-    getPriorTrips().then(result => {
-      // do things with the result here, like call functions with them
-      // set up trips here with data
-      const parsed_result = JSON.parse(result);
-      for (let i = 0; i < parsed_result.length; i++) {
-        trip_ids.push(parsed_result[i].trip_id)
-        // setTrips([...trips, parsed_result[i]]);
-      }
-      console.log(result);
-      console.log(parsed_result);
-      console.log(trip_ids);
-    })
+    const oldTrips = () => {
+      getPriorTrips().then(result => {
+        // do things with the result here, like call functions with them
+        // set up trips here with data
+        const parsed_result = JSON.parse(result);
+        // for (let i = 0; i < parsed_result.length; i++) {
+        //   parsed_result.i.
+        // }
+        // for (let i = 0; i < parsed_result.length; i++) {
+        //   trip_ids.push(parsed_result[i].trip_id)
+        //   setTrips([...trips, parsed_result[i]]);
+        //   console.log("Trips at");
+        //   console.log(i);
+        //   console.log(trips);
+        //   trips_test.push(parsed_result[i]);
+        // }
+        setTrips(...trips, parsed_result);
+        console.log(parsed_result);
+        console.log(trip_ids);
+        console.log("Trips");
+        console.log(trips);
+      })
+  }
 
     // fetch('http://localhost:3001/api/trip', {
     //   method: 'GET',
@@ -68,11 +87,12 @@ function Home({ setCurrentPage }) {
     const addTrip = () => {
       const tripId = Math.random().toString(36).substr(2, 9);
       const newTrip = {
-        id: tripId,
-        username: 'user1',
+        trip_id: tripId,
+        username: username,
         start_date: '',
         end_date: '',
-        location: ''
+        location: "City",
+        prior: false
       };
       setTrips([...trips, newTrip]);
 
@@ -99,10 +119,15 @@ function Home({ setCurrentPage }) {
         alert(error.message);
       });
     };
+
+    // how to make load old trips button be removed once it is pressed
+    
+    // how to make "your" be replaced by the username variable?
   
     return (
       <>
-        <h2>urmomdotcom's trips</h2>
+        <h2>username's trips</h2>
+        <button onClick={oldTrips}>Load Old Trips</button>
         <button onClick={addTrip}>Create New Trip</button>
         <button onClick={logOut}>Log Out</button>
         
@@ -111,8 +136,8 @@ function Home({ setCurrentPage }) {
         ) :   
         (
           trips.map((trip) => (
-            <div className="trip" key={trip.id}>
-              <Trip trip={trip} id = {trip.id} onDeleteTrip={deleteTrip} />
+            <div className="trip" key={trip.trip_id}>
+              <Trip trip={trip} id = {trip.trip_id} onDeleteTrip={deleteTrip} startDate = {trip.start_date} endDate = {trip.end_date} city = {trip.location} priorState = {trip.prior}/>
             </div>
           ))
         )}

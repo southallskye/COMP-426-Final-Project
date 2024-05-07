@@ -30,6 +30,7 @@ function Start({ setCurrentPage }) {
         return response.json();
       })
       .then(() => {
+        localStorage.setItem('username', username);
         // handle successful response
         // how to send username data to home
         navigateToHome();
@@ -62,12 +63,13 @@ function Start({ setCurrentPage }) {
         return response.json();
       })
       .then(() => {
+        localStorage.setItem('username', username);
         // handle successful response
         // how to send username data to home
         navigateToHome();
       })
       .catch(error => {
-        // handle error
+        // handle 
         alert(error.message);
       });
     }

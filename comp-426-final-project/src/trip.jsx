@@ -2,18 +2,35 @@ import React, { useState } from 'react';
 import Event from './event'; 
 import { fetchData } from './api_call';
 
-function Trip({ id, city, onDeleteTrip , startDate, endDate}) {
+function Trip({ id, city, onDeleteTrip , startDate, endDate, priorState}) {
   const [expanded, setExpanded] = useState(false);
   const [events, setEvents] = useState([]);
-  const [tripStart, setTripStart] = useState('');
-  const [tripEnd, setTripEnd] = useState('');
+  const [tripStart, setTripStart] = useState(startDate);
+  const [tripEnd, setTripEnd] = useState(endDate);
   const [weather, setWeather] = useState(null);
   const [tripTitle, setTripTitle] = useState("Trip #" + id);
   const [tripData, setTripData] = useState(city);
+  const username = localStorage.getItem('username');
+
+
+  const loadWeather = async () => {
+    try {
+      const weatherData = await fetchData(tripData);
+      console.log("Weather data received:", JSON.stringify(weatherData));
+      console.log("returned successfully");
+      setWeather(parseWeather(weatherData)); // Update weather state
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle error
+    }
+  }
 
   const handleSaveTrip = async () => {
+      console.log("Username in trip");
+      console.log(username);
+      const fetch_url = 'http://localhost:3001/api/trip/' + username;
 
-    fetch('http://localhost:3001/api/trip', {
+    fetch(fetch_url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -29,16 +46,7 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate}) {
         // handle error
         alert(error.message);
       });
-    
-    try {
-      const weatherData = await fetchData(tripData);
-      console.log("Weather data received:", JSON.stringify(weatherData));
-      console.log("returned successfully");
-      setWeather(parseWeather(weatherData)); // Update weather state
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      // Handle error
-    }
+    loadWeather();
   };
 
   const handleDeleteTrip = () => {
@@ -86,6 +94,8 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate}) {
     };
   };
 
+  // how to make show weather button be removed once it is pressed
+
   return (
     <>
       <input className="trip-title"
@@ -97,7 +107,6 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate}) {
         type=""
         value={tripData}
         onChange={(e) => setTripData(e.target.value)}
-        placeholder="City"
       />
       <input 
         type="date" 
@@ -119,6 +128,7 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate}) {
       )}
       <button onClick={handleSaveTrip}>Save Trip</button>
       <button onClick={handleDeleteTrip}>Delete Trip</button>
+      <button onClick={loadWeather}>Load Weather</button>
     </>
   );
 }

@@ -83,16 +83,20 @@ app.post('/api/login', (req, res) => {
     });
 });
 
-app.post('/api/trip', (req, res) => {
+app.post('/api/trip/:user', (req, res) => {
     // Handle login logic here
-    const { id, tripStart, tripEnd, tripData } = req.body;
-    console.log(id);
-    console.log(tripStart);
-    console.log(tripEnd);
-    console.log(tripData);
-    console.log(req.session.username);
+    const username = req.params.user;
 
-    db.run('INSERT INTO trips VALUES (?, ?, ?, ?, ?)', [id, 'user1', tripStart, tripEnd, tripData])
+    const { id, tripStart, tripEnd, tripData } = req.body;
+    // console.log(id);
+    // console.log(req.params.user);
+    // console.log(username);
+    // console.log(tripStart);
+    // console.log(tripEnd);
+    // console.log(tripData);
+    // console.log(req.session.username);
+
+    db.run('INSERT INTO trips VALUES (?, ?, ?, ?, ?)', [id, username, tripStart, tripEnd, tripData])
     .then(() => {
         console.log("trip created");
         res.send({ message: 'Trip created' });
@@ -103,19 +107,20 @@ app.post('/api/trip', (req, res) => {
     });
 });
 
-app.get('/api/trip', async (req, res) => {
+app.get('/api/trip/:user', async (req, res) => {
     // find tirps associated with 
-    const { username } = req.body;
+    // const { username } = req.body;
+    const username = req.params.user;
 
     // might want to change this to be user
-    let gathered_trips = await db.all('SELECT * FROM trips WHERE username = ?', ['user1']); // all instead of get?
-    console.log("Gathered trips: ?");
-    console.log(gathered_trips);
+    let gathered_trips = await db.all('SELECT * FROM trips WHERE username = ?', [username]); // all instead of get?
+    // console.log("Gathered trips: ?");
+    // console.log(gathered_trips);
     if (gathered_trips == undefined) {
         res.json([]);
     }
-    console.log("The result of get 'user1' for trips");
-    console.log(JSON.stringify(gathered_trips));
+    // console.log("The result of get 'user1' for trips");
+    // console.log(JSON.stringify(gathered_trips));
 
     res.json(JSON.stringify(gathered_trips));
 });
