@@ -63,6 +63,7 @@ function Start({ setCurrentPage }) {
       })
       .then(() => {
         // handle successful response
+        // how to send username data to home
         navigateToHome();
       })
       .catch(error => {

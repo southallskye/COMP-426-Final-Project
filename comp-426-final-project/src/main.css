@@ -50,6 +50,19 @@ input{
 .trip {
     background-size: cover;
     background-position: center; /* Center the image */
-    background-image: url(trip_bg.jpg);
+    background-image: url(trip_bg3.jpg);
     padding: calc(0.25in + 1px); /* Adjust the padding to 1/4 inch */
 }
+
+.trip-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .trip-title {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    resize: vertical; /* Allows the input to be vertically resizable */
+  }

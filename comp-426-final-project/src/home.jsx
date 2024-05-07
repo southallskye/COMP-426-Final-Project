@@ -12,22 +12,39 @@ function Home({ setCurrentPage }) {
       alert('Logging out...');
       navigateToStart();
     }
+
+    fetch('http://localhost:3001/api/trip', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => {
+      // what to do here 
+      console.log("Response here");
+      console.log(response.json());
+    })
+    .catch(error => {
+      // handle the error
+      alert(error.message);
+    })
+
     
     const addTrip = () => {
       const tripId = Math.random().toString(36).substr(2, 9);
       const newTrip = {
-        id: tripId,
-        city: "City"
-        // Other trip properties
+        id: tripId
       };
       setTrips([...trips, newTrip]);
-
 
       //POST new trip
     };
     
     const deleteTrip = (id) => {
+      console.log(trips);
+      console.log(id);
       setTrips(trips.filter((trip) => trip.id !== id)); 
+      console.log(trips);
       fetch('http://localhost:3001/api/trip', {
         method: 'DELETE',
         headers: {
@@ -55,7 +72,7 @@ function Home({ setCurrentPage }) {
         ) : (
           trips.map((trip) => (
             <div className="trip" key={trip.id}>
-              <Trip trip={trip} onDeleteTrip={deleteTrip} />
+              <Trip trip={trip} id = {trip.id} onDeleteTrip={deleteTrip} />
             </div>
           ))
         )}

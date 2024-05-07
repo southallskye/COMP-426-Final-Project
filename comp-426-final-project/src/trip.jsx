@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Event from './event'; 
+import { fetchData } from './api_call';
 
 function Trip({ id, city, onDeleteTrip }) {
   const [expanded, setExpanded] = useState(false);
@@ -8,33 +9,31 @@ function Trip({ id, city, onDeleteTrip }) {
   const [tripEnd, setTripEnd] = useState('');
   const [weather, setWeather] = useState(null);
   const [tripTitle, setTripTitle] = useState("Trip " + id);
-  const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
-  //const weatherApiKey = '5179943790412546d5501fb308a6219c';
-  const weatherApiKey = 'b8a286429efbdadebe4aa6638acf1b93';
-
-  // const handleExpand = () => {
-  //   setExpanded(true);
-  // };
-
-  // const handleHide = () => {
-  //   setExpanded(false);
-  // };
-
-  // const handleAddEvent = () => {
-  //   const eventId = Math.random().toString(36).substr(2, 9);
-  //   setEvents([...events, { id: eventId }]);
-  //   //POST event
-  // };
+  const [tripData, setTripData] = useState(city);
 
   const handleSaveTrip = async () => {
+
+    fetch('http://localhost:3001/api/trip', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, tripStart, tripEnd, tripData })
+      })
+      .then(() => {
+        // handle successful response
+        alert(`Trip sucessfully created with id = ?`, [id]);
+      })
+      .catch(error => {
+        // handle error
+        alert(error.message);
+      });
+    
     try {
-      const apiUrl = `${weatherApiUrl}?q=${encodeURIComponent(city)}&appid=${weatherApiKey}&units=imperial`;
-      const weatherResponse = await fetch(apiUrl);
-      if (!weatherResponse.ok) {
-        throw new Error('Failed to fetch weather data: ' + weatherResponse.statusText);
-      }
-      const weatherData = await weatherResponse.json();
-      setWeather(weatherData);
+      const weatherData = await fetchData(tripData);
+      console.log("Weather data received:", JSON.stringify(weatherData));
+      console.log("returned successfully");
+      setWeather(parseWeather(weatherData)); // Update weather state
     } catch (error) {
       console.error('Error fetching data:', error);
       // Handle error
@@ -53,7 +52,7 @@ function Trip({ id, city, onDeleteTrip }) {
     })
     .then(() => {
       // what to do here 
-      expanded = 0;
+      setExpanded(false); // Instead of expanded = 0;
     })
     .catch(error => {
       // handle the error
@@ -70,23 +69,31 @@ function Trip({ id, city, onDeleteTrip }) {
     setTripEnd(e.target.value);
   };
 
-  // const handleDeleteEvent = (eventId) => {
-  //   const updatedEvents = events.filter((event) => event.id !== eventId);
-  //   setEvents(updatedEvents);
-  //   //DELETE event
-  // };
+  const parseWeather = (weatherData) => {
+    if (!weatherData) {
+      return null;
+    }
 
-  const [tripData, setTripData] = useState(city); //inputs for 3rd party API requests
+    const { name, main, weather } = weatherData;
+    const iconUrl = `http://openweathermap.org/img/wn/${weather[0].icon}.png`;
+
+    return {
+      name: name,
+      iconUrl: iconUrl,
+      temperature: main.temp,
+      description: weather[0].description
+    };
+  };
 
   return (
     <>
-      <input 
+      <input className="trip-title"
         type="text" 
         value={tripTitle} 
         onChange={(e) => setTripTitle(e.target.value)} 
       />
       <input
-      type=""
+        type=""
         value={tripData}
         onChange={(e) => setTripData(e.target.value)}
         placeholder="City"
@@ -101,17 +108,14 @@ function Trip({ id, city, onDeleteTrip }) {
         value={tripEnd} 
         onChange={handleEndDateChange} 
       />
-      {weather !== null && (
-  <div className="weather-info">
-    <h4>Weather Information</h4>
-    <p>Temperature: {weather.main.temp} °C</p>
-    <p>Feels Like: {weather.main.feels_like} °C</p>
-    <p>Weather Conditions: {weather.weather[0].description}</p>
-    <p>Humidity: {weather.main.humidity}%</p>
-    <p>Wind Speed: {weather.wind.speed} meter/sec</p>
-    {/* Add more weather information as needed */}
-  </div>
-)}
+      {weather && (
+        <div className="weather-info">
+          <h2>Weather in {weather.name}</h2>
+          <img src={weather.iconUrl} alt={weather.description} />
+          <p>Temperature: {weather.temperature} °F</p>
+          <p>Weather Conditions: {weather.description}</p>
+        </div>
+      )}
       <button onClick={handleSaveTrip}>Save Trip</button>
       <button onClick={handleDeleteTrip}>Delete Trip</button>
     </>
