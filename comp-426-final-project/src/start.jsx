@@ -82,7 +82,7 @@ function Start({ setCurrentPage }) {
           type="text"
           id="username"
           name="username"
-          placeholder="urmomdotcom"
+          placeholder="username"
           maxLength="20"
           required
         />
@@ -103,7 +103,7 @@ function Start({ setCurrentPage }) {
           type="text"
           id="username2"
           name="username2"
-          placeholder="urmomdotcom"
+          placeholder="username"
           maxLength="20"
           required
         />

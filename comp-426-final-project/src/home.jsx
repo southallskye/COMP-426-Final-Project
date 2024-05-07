@@ -126,7 +126,7 @@ function Home({ setCurrentPage }) {
   
     return (
       <>
-        <h2>username's trips</h2>
+        <h2>{username}'s trips</h2>
         <button onClick={oldTrips}>Load Old Trips</button>
         <button onClick={addTrip}>Create New Trip</button>
         <button onClick={logOut}>Log Out</button>

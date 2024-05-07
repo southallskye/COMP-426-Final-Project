@@ -98,11 +98,8 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate, priorState}) {
 
   return (
     <>
-      <input className="trip-title"
-        type="text" 
-        value={tripTitle} 
-        onChange={(e) => setTripTitle(e.target.value)} 
-      />
+      <h2>Trip to {tripData}</h2>
+      
       <input
         type=""
         value={tripData}
