@@ -1,37 +1,31 @@
-# COMP-426-Final-Project
+Welcome to our Trip Planner website! This website allows a user to sign up and stores their username in our database. Once a user signs up and their username and password are stored, they can log back in to our website whenever they would like using the login option with their username and password. After signing up or logging in, the website launches our trip planner dashboard. Users are able to create a new trip and enter their city of interest and dates of travel. Each new trip loads in a separate block with a title that corresponds to the location of the trip. After a user enters in the city and dates, they can click on a button to save the trip. Once the trip is saved, the trip block loads with the weather information for that city using a 3rd party API. Users also have the ability to delete a trip which removes it from our database. After a user logs out, if they log back in, they can click the load old trips button to bring up past trips that they have created, with a load weather button that users can click to reload the weather in that city. This is how we implemented a session-persistent state. Our username and password storage prevents duplicate usernames from signing up and prevents logging in with a wrong username or password.
 
-The final project is very open-ended and there are no specific requirements for what your final project does per se. There will be 100 overall points awarded as follows:
+Requirements: 
+Front end
+- User creates a new trip
+- User enters travel city and start and end date of travel
+- User saves the trip, which then uses a 3rd party API to load the weather
+- User can update the weather 
+- User can delete a trip
+- User can load old trips 
 
-30 points: Having a front end that is interactive and event-driven
-- sign in page
-- list of trips
-- add a new trip: city location, country, dates, what you want to do
+Back end
+- First resource: username and password storage in database
+- Second resource: adding a trip to database
 
-  events:
-  start (login/signup screen)
-  login
-  signup
-  homepage (trips)
-  expand events
-  hide events
-- 
-30 points: Having a back end that serves at least two resources with a RESTful CRUD (create, read, update, and delete) API.
-- date & location database
-- diy events database
-- get, store database and send to front end
-10 points: Uses at least one 3rd party API
-- Weather API
-- 
-10 points: Uses session-persistent state in some way.
-For example, authenticating the user and then having user-specific preferences and/or data.
-- Sign in and then access your trips
-- 
-10 points: A pleasing user experience (i.e., easy to use, good design, etc.).
- 
-10 points: Quality of presentation video
-- The presentation video should be no more than 10 minutes long and should demonstrate your final project and describe the various components of its implementation. You should think of this as if you are presenting your work to someone who may be interested in purchasing your software. To that end, you are trying to show that the web application you built is interesting, useful, and well-constructed. We will be primarily grading based on your presentation video, so be sure that it appropriately points out or otherwise demonstrates the various aspects listed above (i.e., interactive front-end, backend RESTful API, 3rd party APIs in use, session-persistent state, design elements, etc.).
+3rd party API
+- Connects to OpenWeather API
+- Loads temperature in Farenheit, weather conditions, and an icon representing the weather conditions
+- "Load weather" button allows users to reload the weather
 
+Session-persistent state
+- Users who have created a trip can log back in and load old trips. Any trips that they have previously created will appear.
 
-Each group will be expected to turn in their final projects as a repository with all of the code, stylesheets, images, and any other files developed as part of their project with a top-level README.md file that briefly describes their project and includes a link to a presentation video.
+User experience
+- Fun images and colors with a travel theme
+- Many resources to easily manage trips
+- Username and password for their personal trip planning dashboard 
 
-The official due date for the final project is 4/30 but final projects will be accepted until 5/7 with a 1 point penalty per day.
+Here is a link to our presentation video showcasing this website: https://youtu.be/daWl_25ZpSg
+
+Enjoy!
