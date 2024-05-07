@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Event from './event'; 
 import { fetchData } from './api_call';
 
-function Trip({ id, city, onDeleteTrip }) {
+function Trip({ id, city, onDeleteTrip , startDate, endDate}) {
   const [expanded, setExpanded] = useState(false);
   const [events, setEvents] = useState([]);
   const [tripStart, setTripStart] = useState('');
   const [tripEnd, setTripEnd] = useState('');
   const [weather, setWeather] = useState(null);
-  const [tripTitle, setTripTitle] = useState("Trip " + id);
+  const [tripTitle, setTripTitle] = useState("Trip #" + id);
   const [tripData, setTripData] = useState(city);
 
   const handleSaveTrip = async () => {
@@ -22,7 +22,8 @@ function Trip({ id, city, onDeleteTrip }) {
       })
       .then(() => {
         // handle successful response
-        alert(`Trip sucessfully created with id = ?`, [id]);
+        const alert_message = (`Trip sucessfully created with id = ?`, [id]);
+        alert(alert_message);
       })
       .catch(error => {
         // handle error

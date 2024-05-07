@@ -7,33 +7,72 @@ function Home({ setCurrentPage }) {
     const navigateToStart = () => {
       setCurrentPage('start');
     };
+
+    let trip_ids = [];
   
     function logOut(){
       alert('Logging out...');
       navigateToStart();
     }
 
-    fetch('http://localhost:3001/api/trip', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
+    async function getPriorTrips() {
+      try {
+        const trips = await fetch('http://localhost:3001/api/trip', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const parsed_trips = await trips.json()
+
+        return parsed_trips; // or parsed_trips
+      } catch(error) {
+          alert(error.message);
       }
+    }
+
+    getPriorTrips().then(result => {
+      // do things with the result here, like call functions with them
+      // set up trips here with data
+      const parsed_result = JSON.parse(result);
+      for (let i = 0; i < parsed_result.length; i++) {
+        trip_ids.push(parsed_result[i].trip_id)
+        // setTrips([...trips, parsed_result[i]]);
+      }
+      console.log(result);
+      console.log(parsed_result);
+      console.log(trip_ids);
     })
-    .then((response) => {
-      // what to do here 
-      console.log("Response here");
-      console.log(response.json());
-    })
-    .catch(error => {
-      // handle the error
-      alert(error.message);
-    })
+
+    // fetch('http://localhost:3001/api/trip', {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    // .then((response) => {
+    //   // what to do here 
+    //   console.log("Response here");
+    //   console.log(response.json());
+    // })
+    // .then((data) => {
+    //   console.log("Data here");
+    //   console.log(JSON.parse(data));
+    // })
+    // .catch(error => {
+    //   // handle the error
+    //   alert(error.message);
+    // })
 
     
     const addTrip = () => {
       const tripId = Math.random().toString(36).substr(2, 9);
       const newTrip = {
-        id: tripId
+        id: tripId,
+        username: 'user1',
+        start_date: '',
+        end_date: '',
+        location: ''
       };
       setTrips([...trips, newTrip]);
 
@@ -69,7 +108,8 @@ function Home({ setCurrentPage }) {
         
         {trips.length === 0 ? (
           <h4>You currently have no trips</h4>
-        ) : (
+        ) :   
+        (
           trips.map((trip) => (
             <div className="trip" key={trip.id}>
               <Trip trip={trip} id = {trip.id} onDeleteTrip={deleteTrip} />
