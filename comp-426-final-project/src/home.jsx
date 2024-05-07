@@ -4,6 +4,7 @@ import Trip from './trip';
 
 function Home({ setCurrentPage }) {
     const [trips, setTrips] = useState([]);
+    const [oldTripsLoaded, setOldTripsLoaded] = useState(false);
     const navigateToStart = () => {
       setCurrentPage('start');
     };
@@ -56,6 +57,7 @@ function Home({ setCurrentPage }) {
         //   trips_test.push(parsed_result[i]);
         // }
         setTrips(...trips, parsed_result);
+        setOldTripsLoaded(true);
         console.log(parsed_result);
         console.log(trip_ids);
         console.log("Trips");
@@ -127,7 +129,7 @@ function Home({ setCurrentPage }) {
     return (
       <>
         <h2>{username}'s trips</h2>
-        <button onClick={oldTrips}>Load Old Trips</button>
+        {!oldTripsLoaded && <button onClick={oldTrips}>Load Old Trips</button>} {/* Render the button only if old trips are not loaded */}
         <button onClick={addTrip}>Create New Trip</button>
         <button onClick={logOut}>Log Out</button>
         
