@@ -14,17 +14,17 @@ function Home({ setCurrentPage }) {
     const trips_test = [];
   
     function logOut(){
-      alert('Logging out...');
+      // alert('Logging out...');
       navigateToStart();
     }
 
     async function getPriorTrips() {
       const username = localStorage.getItem('username');
-      console.log("Username");
-      console.log(username);
+      // console.log("Username");
+      // console.log(username);
       const fetch_url = 'http://localhost:3001/api/trip/' + username;
-      console.log('fetch_url');
-      console.log(fetch_url);
+      // console.log('fetch_url');
+      // console.log(fetch_url);
       try {
         const trips = await fetch(fetch_url, { // replace user1 with the variable for username
           method: 'GET',
@@ -58,10 +58,10 @@ function Home({ setCurrentPage }) {
         // }
         setTrips(...trips, parsed_result);
         setOldTripsLoaded(true);
-        console.log(parsed_result);
-        console.log(trip_ids);
-        console.log("Trips");
-        console.log(trips);
+        // console.log(parsed_result);
+        // console.log(trip_ids);
+        // console.log("Trips");
+        // console.log(trips);
       })
   }
 
@@ -102,10 +102,10 @@ function Home({ setCurrentPage }) {
     };
     
     const deleteTrip = (id) => {
-      console.log(trips);
-      console.log(id);
-      setTrips(trips.filter((trip) => trip.id !== id)); 
-      console.log(trips);
+      // console.log(trips);
+      // console.log(id);
+      setTrips(trips.filter((trip) => trip.trip_id !== id)); 
+      // console.log(trips);
       fetch('http://localhost:3001/api/trip', {
         method: 'DELETE',
         headers: {
@@ -120,6 +120,7 @@ function Home({ setCurrentPage }) {
         // handle the error
         alert(error.message);
       });
+
     };
 
     // how to make load old trips button be removed once it is pressed

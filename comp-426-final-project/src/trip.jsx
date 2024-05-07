@@ -16,8 +16,8 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate, priorState}) {
   const loadWeather = async () => {
     try {
       const weatherData = await fetchData(tripData);
-      console.log("Weather data received:", JSON.stringify(weatherData));
-      console.log("returned successfully");
+      // console.log("Weather data received:", JSON.stringify(weatherData));
+      // console.log("returned successfully");
       setWeather(parseWeather(weatherData)); // Update weather state
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -26,8 +26,8 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate, priorState}) {
   }
 
   const handleSaveTrip = async () => {
-      console.log("Username in trip");
-      console.log(username);
+      // console.log("Username in trip");
+      // console.log(username);
       const fetch_url = 'http://localhost:3001/api/trip/' + username;
 
     fetch(fetch_url, {
@@ -40,7 +40,7 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate, priorState}) {
       .then(() => {
         // handle successful response
         const alert_message = (`Trip sucessfully created with id = ?`, [id]);
-        alert(alert_message);
+        // alert(alert_message);
       })
       .catch(error => {
         // handle error
@@ -50,7 +50,7 @@ function Trip({ id, city, onDeleteTrip , startDate, endDate, priorState}) {
   };
 
   const handleDeleteTrip = () => {
-    alert('deleting trip');
+    // alert('deleting trip');
 
     fetch('http://localhost:3001/api/trip', {
       method: 'DELETE',

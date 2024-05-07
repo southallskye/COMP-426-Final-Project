@@ -40,13 +40,13 @@ app.post('/api/signup', (req, res) => {
     .then((user) => {
         if(user) {
             //return error if user already exists
-            console.log("User already exists");
+            // console.log("User already exists");
             res.status(400).json({error: 'User already exists'});
         } else {
             //add user to database
             db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, password])
             .then(() => {
-                console.log("User created");
+                // console.log("User created");
                 res.send({ message: 'User created' });
             })
             .catch((err) => {
@@ -70,10 +70,10 @@ app.post('/api/login', (req, res) => {
     .then((user) => {
         if(user) {
             req.session.username = user.username; // Store username in session
-            console.log("User logged in");
+            // console.log("User logged in");
             res.send({ message: 'User logged in' });
         } else {
-            console.log("User or Password does not match");
+            // console.log("User or Password does not match");
             res.status(400).json({error: 'User or Password does not match'});
         }
     })
@@ -83,7 +83,7 @@ app.post('/api/login', (req, res) => {
     });
 });
 
-app.post('/api/trip/:user', (req, res) => {
+app.post('/api/trip/:user', async (req, res) => {
     // Handle login logic here
     const username = req.params.user;
 
@@ -94,17 +94,63 @@ app.post('/api/trip/:user', (req, res) => {
     // console.log(tripStart);
     // console.log(tripEnd);
     // console.log(tripData);
-    // console.log(req.session.username);
+    // console.log(req.session.username);s
+
+    const gathered_trips = await db.all('SELECT * FROM trips WHERE trip_id = ?', [id]);
+    // console.log(gathered_trips);
+
+    if (gathered_trips != undefined) { // delete prior trips with the same id
+        db.run('DELETE from trips WHERE trip_id = ?', id)
+            .then(() => {
+                
+            })
+            .catch((err) => {
+                res.status(500).json({error: 'error occured'});
+            });
+        for (let i = 0; i < gathered_trips.length; i++) {
+            // console.log(gathered_trips[i]);
+        }
+    } 
+
+    // console.log("reached here");
 
     db.run('INSERT INTO trips VALUES (?, ?, ?, ?, ?)', [id, username, tripStart, tripEnd, tripData])
     .then(() => {
-        console.log("trip created");
+        // console.log("trip created");
         res.send({ message: 'Trip created' });
     })
     .catch((err) => {
         console.error("Error occurred during trip creation:", err);
         res.status(500).json({error: 'error occurred'});
     });
+
+    // db.all('SELECT * FROM trips WHERE trip_id = ?', [id])
+    // .then((trips) => { // previous user already exists
+    //     console.log("trips");
+    //     console.log(trips);
+    //     if(trips) { // if previous trips exist, delete them
+    //         //return error if user already exists
+    //         console.log("Caught trips");
+    //         for (const trip in trips) {
+    //             console.log("trip in trips console log");
+    //             db.run('DELETE from trips WHERE trip_id = ?', id);
+    //         }
+    //     } else { // otherwise, insert it as normal
+    //         db.run('INSERT INTO trips VALUES (?, ?, ?, ?, ?)', [id, username, tripStart, tripEnd, tripData])
+    //         .then(() => {
+    //             console.log("trip created");
+    //             res.send({ message: 'Trip created' });
+    //         })
+    //         .catch((err) => {
+    //             console.error("Error occurred during trip creation:", err);
+    //             res.status(500).json({error: 'error occurred'});
+    //         });
+    //     }
+    // })
+    // .catch((err) => {
+    //     console.error("Error occurred during trip creation:", err);
+    //     res.status(500).json({error: 'error occurred'});
+    // });
 });
 
 app.get('/api/trip/:user', async (req, res) => {
@@ -157,7 +203,7 @@ app.put('/api/trip', async (req, res) => {
 app.delete('/api/trip', (req, res) => {
     // Handle login logic here
     const { id } = req.body;
-    console.log(id);
+    // console.log(id);
 
     //check if user exists
     db.run('DELETE from trips WHERE trip_id = ?', id)
